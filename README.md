@@ -87,11 +87,11 @@ line and works normally from the next message on:
 
 > **▎READY - 56 buyers configured**
 
-Commands still answer during the quiet run, so `/status` and `/day` will tell you
-what it is waiting for. Set `QUIET_UNTIL_PRIMED=false` to have it post from its
-very first message instead. An existing `data/state.json` that has already seen
-both message kinds counts as configured, so upgrading doesn't silence a running
-bot.
+The startup log says which of the two it's still waiting for, and repeats it each
+time a message is applied — with `ENABLE_COMMANDS=true` you can also ask in the
+group with `/day`. Set `QUIET_UNTIL_PRIMED=false` to have it post from its very
+first message instead. An existing `data/state.json` that has already seen both
+message kinds counts as configured, so upgrading doesn't silence a running bot.
 
 Reminders are re-evaluated after **both** message types, so a cap that gets
 eaten by new calls is caught as soon as the next GRSTK report lands.
@@ -112,7 +112,9 @@ For development: `npm run dev` (watch mode). To put it on a server, see
 
 Add the bot to the group where Billing and @GrstkBot post, and — if it's a group —
 disable privacy mode in @BotFather (`/setprivacy` → Disable) so it can read
-messages it wasn't directly addressed in. Send `/chatid` in any group to get its ID.
+messages it wasn't directly addressed in. To get a group's ID, run with
+`LOG_LEVEL=debug` and post anything — the ID is in the log line. (`/chatid` also
+reports it, but only if you've turned commands on; see below.)
 
 ### Where it listens vs. where it posts
 
@@ -166,6 +168,14 @@ Changes take effect on restart. `/excluded` shows the live lists.
 
 ## Commands
 
+**Off by default.** `ENABLE_COMMANDS=false` (the default) makes the bot drop
+*every* slash message without a reply — `/start` and `/help` included — because
+these groups host other bots that own those commands, and two bots answering one
+command is worse than none. Billing and statistics messages are read and acted on
+exactly as normal; only the `/` path is muted.
+
+Set `ENABLE_COMMANDS=true` to switch the table below on:
+
 | Command | |
 | --- | --- |
 | `/status` | Every buyer, lowest remaining cap first |
@@ -179,7 +189,9 @@ Changes take effect on restart. `/excluded` shows the live lists.
 | `/chatid` | This chat's ID |
 | `/help` | Summary of all of the above |
 
-Admin commands are open to everyone unless `ADMIN_USER_IDS` is set.
+Admin commands are open to everyone unless `ADMIN_USER_IDS` is set — worth setting
+before you ever turn commands on, since `/setcap` and `/forget` write to the
+ledger. Pair it with `ALLOWED_CHAT_IDS` so only your own groups can reach the bot.
 
 ---
 

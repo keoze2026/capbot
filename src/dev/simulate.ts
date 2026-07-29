@@ -48,6 +48,7 @@ const cfg: Config = {
   sendUpdates: true,
   sendReminders: true,
   quietUntilPrimed: false, // the dry-run prints every message shape
+  enableCommands: true,
 
   capAccounting: mode,
   statsResetDaily: true,

@@ -93,6 +93,15 @@ async function handle(
   const text = incoming.text.trim();
 
   if (text.startsWith('/')) {
+    // The bot shares its groups with other bots that own /start, /stop and the
+    // rest, so unless commands are explicitly switched on a slash message is
+    // dropped without a reply — no exceptions, /start included.
+    if (!cfg.enableCommands) {
+      log.debug(
+        `Commands are off; ignoring "${text.split(/\s+/)[0]}" in ${incoming.chatId}`,
+      );
+      return;
+    }
     await handleCommand(ctx, incoming, text, cfg, store);
     return;
   }

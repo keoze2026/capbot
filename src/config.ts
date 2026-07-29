@@ -67,6 +67,12 @@ export interface Config {
    * without posting a wall of cap updates.
    */
   quietUntilPrimed: boolean;
+  /**
+   * Whether the bot answers slash commands at all. Off by default: it shares its
+   * groups with other bots that own `/start`, `/stop` and friends, and two bots
+   * replying to one command is worse than none.
+   */
+  enableCommands: boolean;
 
   capAccounting: CapAccounting;
   statsResetDaily: boolean;
@@ -126,6 +132,7 @@ export function loadConfig(): Config {
     sendUpdates: bool('SEND_UPDATES', true),
     sendReminders: bool('SEND_REMINDERS', true),
     quietUntilPrimed: bool('QUIET_UNTIL_PRIMED', true),
+    enableCommands: bool('ENABLE_COMMANDS', false),
 
     capAccounting: accounting === 'absolute' ? 'absolute' : 'baseline',
     statsResetDaily: bool('STATS_RESET_DAILY', true),

@@ -25,6 +25,12 @@ async function main(): Promise<void> {
       `notify: ${cfg.notifyOnDuplicate ? 'on' : 'off'}`,
   );
   log.info(`Accounting: ${cfg.capAccounting}, threshold ${cfg.reminderThreshold}`);
+  log.info(
+    cfg.enableCommands
+      ? 'Commands: on'
+      : 'Commands: off - every slash message is ignored, /start included ' +
+        '(ENABLE_COMMANDS=true to answer them)',
+  );
   if (cfg.quietUntilPrimed && !store.isPrimed()) {
     log.info(
       `Quiet first run: listening silently until a ${store
