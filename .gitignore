@@ -1,0 +1,30 @@
+# --- credentials -------------------------------------------------------
+.env
+.env.*
+!.env.example
+
+# --- runtime data (auto-generated on first message) --------------------
+data/
+DEPLOY.md
+
+# --- tooling -----------------------------------------------------------
+.claude/
+
+# --- node --------------------------------------------------------------
+node_modules/
+dist/
+*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- editors / OS ------------------------------------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# --- logs --------------------------------------------------------------
+logs/
+*.log
